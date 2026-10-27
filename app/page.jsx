@@ -1,15 +1,33 @@
+"use client";
+
+import { useState } from "react";
 import {
+  Activity,
   ArrowDownRight,
   ArrowRight,
+  Calendar,
+  Check,
   CheckCircle2,
-  Code2,
+  ChevronRight,
   Cloud,
+  Code2,
+  CreditCard,
+  Cpu,
+  Database,
+  ExternalLink,
+  GraduationCap,
   Layers3,
+  Lock,
   Mail,
   Menu,
+  Server,
   ShieldCheck,
+  ShoppingCart,
+  SlidersHorizontal,
   Sparkles,
+  Users,
   Workflow,
+  X,
 } from "lucide-react";
 
 const services = [
@@ -50,7 +68,166 @@ const steps = [
   ["04", "Deliver", "We test, document, and prepare your solution to launch."],
 ];
 
+const portfolioProjects = [
+  {
+    id: "ecommerce",
+    name: "Tiamo Diamonds",
+    category: "ecommerce",
+    categoryLabel: "E-Commerce",
+    bannerClass: "banner-ecommerce",
+    icon: ShoppingCart,
+    statusBadge: "Enterprise Live",
+    subtitle: "Luxury Diamond & Fine Jewelry Commerce Platform",
+    specCode: "ARCH-EC // v3.2",
+    description: "High-ticket luxury jewelry commerce platform featuring 360° certified diamond inspect, real-time vault inventory synchronization, and bespoke ring builder.",
+    metric: "45ms Checkout · $35M+ Luxury GMV",
+    metricIcon: Activity,
+    features: [
+      "Real-time diamond vault inventory with GIA certificate sync",
+      "Interactive 360° stone visualizer & custom ring customizer",
+      "Secure high-limit payment gateway with escrow & multi-currency",
+    ],
+    techStack: ["Laravel", "Mysql", "Redis", "Paypal API", "FedX Api", "React", "AWS"],
+    challenge: "High-value luxury diamond purchases required flawless 360° visual inspection, real-time GIA certificate verification, and high-concurrency fraud prevention without checkout latency.",
+    solution: "We engineered a headless luxury commerce architecture with real-time vault inventory locking, CDN-accelerated 3D diamond renders, and bank-grade secure checkout.",
+    results: "+220% digital luxury sales conversion, zero fraud chargebacks, and 99.99% vault inventory accuracy.",
+  },
+  {
+    id: "school",
+    name: "Assistanto",
+    category: "school",
+    categoryLabel: "School Management",
+    bannerClass: "banner-school",
+    icon: GraduationCap,
+    statusBadge: "Production Deployed",
+    subtitle: "K-12 & Higher-Ed Digital Campus Suite",
+    specCode: "ARCH-ED // v4.1",
+    description: "Cloud-native institutional operations suite managing 50,000+ active students, automated biometric attendance, fee billing, and parent-teacher collaboration.",
+    metric: "50,000+ Students · 94% Admin Time Saved",
+    metricIcon: CheckCircle2,
+    features: [
+      "Automated timetable generator with clash prevention",
+      "Real-time RFID student attendance with instant SMS alerts",
+      "Tuition fee billing portal with automated recurring receipts",
+    ],
+    techStack: ["React", "Laravel", "Mysql", "AWS S3 ,EC2,SES", "FireBase", "Docker"],
+    challenge: "Fragmented legacy systems resulted in delayed attendance reporting, complex fee collection reconciliations, and poor communication between faculty and parents.",
+    solution: "Designed a consolidated multi-branch platform featuring role-based portals, automated grading rubrics, payment gateway integrations, and instant parent push notifications.",
+    results: "94% reduction in manual clerical effort and 100% reconciliation accuracy across 5 campuses.",
+  },
+  {
+    id: "booking",
+    name: "Nature Camp Retreat",
+    category: "booking",
+    categoryLabel: "Resort & Retreat Booking",
+    bannerClass: "banner-booking",
+    icon: Calendar,
+    statusBadge: "Live Booking Platform",
+    subtitle: "Resort Reservation & Nature Retreat Management Platform",
+    specCode: "ARCH-NCR // v1.0",
+    description: "Resort and nature camp booking website featuring accommodation reservations, availability management, seasonal pricing, booking confirmations, and seamless guest reservation experiences.",
+    metric: "Online Resort Bookings · Real-Time Availability",
+    metricIcon: Calendar,
+    features: [
+      "Resort and campsite booking with real-time room and accommodation availability",
+      "Date-based reservations with seasonal pricing, guest details, and booking management",
+      "Automated booking confirmations, cancellation updates, and guest notifications",
+    ],
+    techStack: ["Laravel", "React.js", "Firebase", "PayPal Payment Gateway"],
+    challenge: "Managing resort reservations manually made it difficult to track accommodation availability, handle guest bookings efficiently, and prevent overlapping reservations during peak seasons.",
+    solution: "Developed a user-friendly resort booking website with centralized reservation management, availability tracking, streamlined booking workflows, and automated guest notifications.",
+    results: "Simplified resort reservation management, improved the guest booking experience, and enabled more efficient handling of accommodation availability and bookings.",
+  },
+  {
+    id: "social",
+    name: "PulseWave Community",
+    category: "social",
+    categoryLabel: "Social Platform",
+    bannerClass: "banner-social",
+    icon: Users,
+    statusBadge: "Production Live",
+    subtitle: "Creator Network & Real-Time Engagement Engine",
+    specCode: "ARCH-SC // v3.0",
+    description: "Next-gen social engagement network featuring algorithmic interest feeds, live audio stages, encrypted direct messaging, and creator monetization.",
+    metric: "1.8M Active Members · 35ms Event Latency",
+    metricIcon: Activity,
+    features: [
+      "Low-latency live interactive audio rooms powered by WebRTC",
+      "Algorithmic feed ranking with vector recommendation",
+      "Creator monetization passes, digital tipping, and storefronts",
+    ],
+    techStack: ["React", "Python / FastAPI", "Apache Kafka", "Cassandra", "WebSockets", "AWS"],
+    challenge: "Surges of viral content generated massive spikes in concurrent websocket events, causing latency degradation and message dropouts.",
+    solution: "Constructed an event-driven architecture using Kafka message streaming and Cassandra for high-volume write scalability and sub-second broadcast.",
+    results: "Successfully scaled to 1.8M MAU with 35ms median event delivery latency and 99.98% platform uptime.",
+  },
+  {
+    id: "fintech",
+    name: "ApexPay Ledger & Gateway",
+    category: "fintech",
+    categoryLabel: "Fintech & Payments",
+    bannerClass: "banner-fintech",
+    icon: CreditCard,
+    statusBadge: "PCI-DSS Level 1",
+    subtitle: "Bank-Grade Payment Orchestration & Wallet",
+    specCode: "ARCH-FT // v5.0",
+    description: "Bank-grade payment orchestrator with automated double-entry ledger bookkeeping, real-time KYC validation, and multi-currency routing.",
+    metric: "$280M+ Transacted · 99.999% SLA",
+    metricIcon: ShieldCheck,
+    features: [
+      "Mathematically balanced double-entry ledger with audit trail",
+      "Dynamic multi-acquirer smart routing to minimize decline rates",
+      "Automated AML sanctions screening and biometric KYC verification",
+    ],
+    techStack: ["Java / Spring Boot", "Go", "PostgreSQL", "AWS KMS", "Docker", "Redis"],
+    challenge: "Frequent payment gateway outages and complex multi-currency reconciliation across borders caused customer churn and inflated transaction fees.",
+    solution: "Implemented an immutable double-entry ledger with automated failover smart routing and hardware-secured cryptographic key management.",
+    results: "$280M+ in cumulative transactions processed with 99.999% uptime and an 18% reduction in gateway interchange fees.",
+  },
+  {
+    id: "saas",
+    name: "CloudPulse B2B SaaS",
+    category: "saas",
+    categoryLabel: "B2B SaaS Platform",
+    bannerClass: "banner-saas",
+    icon: Cpu,
+    statusBadge: "Enterprise Deployed",
+    subtitle: "Multi-Tenant Workflow & API Observability Suite",
+    specCode: "ARCH-SA // v4.4",
+    description: "Multi-tenant cloud operations and workflow orchestration suite with granular role-based access control (RBAC), usage metering, and real-time alerts.",
+    metric: "650+ Enterprise Teams · 4.9/5 CSAT",
+    metricIcon: Sparkles,
+    features: [
+      "Enterprise RBAC with SAML 2.0 / Okta / Azure AD single sign-on",
+      "Sub-second analytics on billions of telemetry records via ClickHouse",
+      "Usage-based tiered subscription billing and automated webhook web",
+    ],
+    techStack: ["Next.js", "TypeScript", "ClickHouse", "Python / Celery", "Redis", "Stripe Billing"],
+    challenge: "Enterprise clients required strict tenant isolation, SOC2 compliance auditing, and instant querying over billions of microservice log lines.",
+    solution: "Built a columnar analytics engine with row-level security isolation, asynchronous worker pipelines, and pre-aggregated metric rollups.",
+    results: "Adopted by 650+ enterprise teams, achieving 4.9/5 CSAT and seamless SOC2 Type II compliance.",
+  },
+];
+
+const categoryFilters = [
+  { id: "all", label: "All Applications" },
+  { id: "ecommerce", label: "E-Commerce" },
+  { id: "school", label: "School Management" },
+  { id: "booking", label: "Booking & Events" },
+  { id: "social", label: "Social Platform" },
+  { id: "fintech", label: "Fintech" },
+  { id: "saas", label: "B2B SaaS" },
+];
+
 export default function Home() {
+  const [activeCategory, setActiveCategory] = useState("all");
+  const [selectedProject, setSelectedProject] = useState(null);
+
+  const filteredProjects =
+    activeCategory === "all"
+      ? portfolioProjects
+      : portfolioProjects.filter((p) => p.category === activeCategory);
+
   return (
     <main>
       <div className="announcement">
@@ -61,11 +238,12 @@ export default function Home() {
 
       <header className="site-header">
         <a className="brand brand-logo" href="#home" aria-label="Tribrian Technologies home">
-          <img src="/tribrian-logo.png" alt="TRIBRIAN TECHNOLOGIES logo" />
+          <img src="/tribrian-logo.png?v=2" alt="TRIBRIAN TECHNOLOGIES logo" />
         </a>
         <nav className="desktop-nav" aria-label="Main navigation">
           <a href="#services">Services</a>
           <a href="#approach">Our approach</a>
+          <a href="#portfolio">Portfolio</a>
           <a href="#work">Capabilities</a>
           <a className="nav-cta" href="#contact">Let&apos;s talk <ArrowDownRight size={16} /></a>
         </nav>
@@ -82,7 +260,7 @@ export default function Home() {
           </p>
           <div className="hero-actions">
             <a className="button button-dark" href="#contact">Start a conversation <ArrowRight size={17} /></a>
-            <a className="text-link" href="#services">Explore our services <ArrowDownRight size={16} /></a>
+            <a className="text-link" href="#portfolio">View our work <ArrowDownRight size={16} /></a>
           </div>
           <div className="hero-proof">
             <div className="proof-icon"><CheckCircle2 size={19} /></div>
@@ -110,11 +288,14 @@ export default function Home() {
 
       <section className="ticker" aria-label="Our focus areas">
         <div className="ticker-inner">
-          {["Software engineering", "Backend & APIs", "Cloud solutions", "Quality automation", "Software engineering", "Backend & APIs"].map((item, i) => (
-            <span key={`${item}-${i}`}><i />{item}</span>
-          ))}
+          <div className="ticker-track">
+            {["Software engineering", "Backend & APIs", "Cloud solutions", "Quality automation", "UI/UX Design", "SaaS Platforms", "Software engineering", "Backend & APIs", "Cloud solutions", "Quality automation", "UI/UX Design", "SaaS Platforms"].map((item, i) => (
+              <span key={`${item}-${i}`}><i />{item}</span>
+            ))}
+          </div>
         </div>
       </section>
+
 
       <section className="services section-wrap" id="services">
         <div className="section-heading">
@@ -157,6 +338,226 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ================================================================= */}
+      {/* PROJECT PORTFOLIO SECTION                                         */}
+      {/* ================================================================= */}
+      <section className="portfolio-section" id="portfolio">
+        <div className="section-wrap">
+          <div className="portfolio-header">
+            <div>
+              <div className="eyebrow"><span className="eyebrow-line" /> FEATURED WORK & PORTFOLIO</div>
+              <h2>Real-world applications.<br /><span>Engineered for scale.</span></h2>
+            </div>
+            <p className="portfolio-header-copy">
+              Explore our production-grade software solutions across e-commerce, school management, appointment booking, social media platforms, fintech infrastructure, and enterprise SaaS.
+            </p>
+          </div>
+
+          {/* Interactive Category Filter Bar */}
+          <div className="portfolio-filter-bar" role="tablist" aria-label="Portfolio filters">
+            {categoryFilters.map((filter) => (
+              <button
+                key={filter.id}
+                role="tab"
+                aria-selected={activeCategory === filter.id}
+                className={`filter-btn ${activeCategory === filter.id ? "active" : ""}`}
+                onClick={() => setActiveCategory(filter.id)}
+              >
+                {filter.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Projects Grid */}
+          <div className="portfolio-grid">
+            {filteredProjects.map((project) => {
+              const IconComponent = project.icon;
+              const MetricIconComponent = project.metricIcon;
+              return (
+                <article className="portfolio-card" key={project.id}>
+                  <div className={`card-banner ${project.bannerClass}`}>
+                    <IconComponent className="banner-watermark" size={130} aria-hidden="true" />
+                    <div className="banner-top-row">
+                      <span className="category-pill">
+                        <IconComponent size={12} />
+                        {project.categoryLabel}
+                      </span>
+                      <span className="live-indicator">
+                        <span className="pulse-dot" />
+                        {project.statusBadge}
+                      </span>
+                    </div>
+                    <div className="banner-project-spec">
+                      <span className="banner-subtitle">{project.subtitle}</span>
+                      <span className="banner-code-badge">{project.specCode}</span>
+                    </div>
+                  </div>
+
+                  <div className="card-content">
+                    <h3 className="card-title">{project.name}</h3>
+                    <p className="card-desc">{project.description}</p>
+
+                    <div className="metric-box">
+                      <span className="metric-icon">
+                        <MetricIconComponent size={16} />
+                      </span>
+                      <span className="metric-text">{project.metric}</span>
+                    </div>
+
+                    <ul className="card-feature-list">
+                      {project.features.map((feat, idx) => (
+                        <li key={idx}>
+                          <Check size={14} />
+                          <span>{feat}</span>
+                        </li>
+                      ))}
+                    </ul>
+
+                    <div className="card-tags">
+                      {project.techStack.map((tech) => (
+                        <span className="card-tag" key={tech}>
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+
+                    <div className="card-actions">
+                      <button
+                        className="btn-case-study"
+                        onClick={() => setSelectedProject(project)}
+                        aria-label={`View case study for ${project.name}`}
+                      >
+                        Explore Case Study <ChevronRight size={15} />
+                      </button>
+                      <a
+                        href="#contact"
+                        className="btn-case-secondary"
+                        aria-label={`Request architecture for ${project.name}`}
+                      >
+                        Discuss <ArrowRight size={14} />
+                      </a>
+                    </div>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Case Study Detail Modal */}
+      {selectedProject && (
+        <div
+          className="modal-overlay"
+          onClick={() => setSelectedProject(null)}
+          role="dialog"
+          aria-modal="true"
+        >
+          <div
+            className="modal-content"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              className="modal-close-btn"
+              onClick={() => setSelectedProject(null)}
+              aria-label="Close case study modal"
+            >
+              <X size={18} />
+            </button>
+
+            <div className={`modal-header-banner ${selectedProject.bannerClass}`}>
+              <span className="category-pill">
+                {selectedProject.categoryLabel} · {selectedProject.statusBadge}
+              </span>
+              <div className="modal-title-row">
+                <span style={{ fontSize: "11px", letterSpacing: ".1em", color: "var(--lime)", fontWeight: 700 }}>
+                  {selectedProject.specCode}
+                </span>
+                <h3>{selectedProject.name}</h3>
+                <p style={{ margin: "6px 0 0", color: "#d2ded5", fontSize: "13px" }}>
+                  {selectedProject.subtitle}
+                </p>
+              </div>
+            </div>
+
+            <div className="modal-body">
+              <div className="modal-grid-two">
+                <div>
+                  <div className="modal-section-title">
+                    <Workflow size={14} /> The Business Challenge
+                  </div>
+                  <p className="modal-text">{selectedProject.challenge}</p>
+
+                  <div className="modal-section-title" style={{ marginTop: "20px" }}>
+                    <Cpu size={14} /> Engineering Solution & Architecture
+                  </div>
+                  <p className="modal-text">{selectedProject.solution}</p>
+                </div>
+
+                <div>
+                  <div className="modal-highlights">
+                    <h4 className="modal-highlights-title">Core Results & Deliverables</h4>
+                    <ul className="modal-highlights-list">
+                      {selectedProject.features.map((feat, i) => (
+                        <li key={i}>
+                          <Check size={14} />
+                          <span>{feat}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <div style={{ marginTop: "14px", paddingTop: "12px", borderTop: "1px solid var(--line)" }}>
+                      <span style={{ fontSize: "9px", textTransform: "uppercase", letterSpacing: ".1em", color: "#6e7f72", fontWeight: 800 }}>
+                        Measured Outcome
+                      </span>
+                      <p style={{ margin: "4px 0 0", fontSize: "12px", fontWeight: 750, color: "#283e2e" }}>
+                        {selectedProject.results}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="modal-tech-box">
+                <div className="modal-section-title">
+                  <Database size={14} /> Production Technology Stack
+                </div>
+                <div className="card-tags" style={{ margin: "8px 0 0" }}>
+                  {selectedProject.techStack.map((tech) => (
+                    <span className="card-tag" key={tech} style={{ fontSize: "11px", padding: "6px 12px" }}>
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="modal-actions">
+                <div>
+                  <span style={{ fontSize: "11px", color: "var(--muted)" }}>
+                    Ready to build a similar application for your business?
+                  </span>
+                </div>
+                <div style={{ display: "flex", gap: "10px" }}>
+                  <button
+                    className="button"
+                    style={{ background: "#edf2ea", color: "var(--ink)", border: "none", cursor: "pointer" }}
+                    onClick={() => setSelectedProject(null)}
+                  >
+                    Close
+                  </button>
+                  <a
+                    className="button button-dark"
+                    href="#contact"
+                    onClick={() => setSelectedProject(null)}
+                  >
+                    Discuss This Project <ArrowRight size={16} />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       <section className="capabilities section-wrap" id="work">
         <div className="capabilities-copy">
           <div className="eyebrow"><span className="eyebrow-line" /> OUR TOOLKIT</div>
@@ -166,10 +567,10 @@ export default function Home() {
         <div className="tech-panel">
           <div className="tech-panel-heading"><Workflow size={19} /><span>TECHNOLOGY CAPABILITIES</span></div>
           <div className="tech-list">
-            <div><span className="tech-dot dot-lime" /><div><strong>Backend</strong><p>Go · Java · REST APIs</p></div><span className="tech-index">01</span></div>
+            <div><span className="tech-dot dot-lime" /><div><strong>Backend</strong><p>Go · Java · PHP. Laravel. Express . Nest Js . Python . REST APIs</p></div><span className="tech-index">01</span></div>
             <div><span className="tech-dot dot-blue" /><div><strong>Web</strong><p>React · Next.js · Responsive UI</p></div><span className="tech-index">02</span></div>
             <div><span className="tech-dot dot-orange" /><div><strong>Cloud & delivery</strong><p>AWS · CI/CD · Deployment</p></div><span className="tech-index">03</span></div>
-            <div><span className="tech-dot dot-purple" /><div><strong>Quality</strong><p>API testing · Automation</p></div><span className="tech-index">04</span></div>
+            <div><span className="tech-dot dot-purple" /><div><strong>Quality</strong><p>API testing · Automation . Cypress . Playwright . Postman . Selenium </p></div><span className="tech-index">04</span></div>
           </div>
           <p className="tech-note">Technologies are selected based on each project&apos;s needs and scope.</p>
         </div>
@@ -192,11 +593,13 @@ export default function Home() {
 
       <footer className="footer">
         <div className="section-wrap footer-inner">
-          <a className="brand brand-footer" href="#home" aria-label="Tribrian Technologies home">
-            <span className="footer-brand-name">TRIBRIAN TECHNOLOGIES</span>
+          <a className="brand brand-logo brand-logo-footer" href="#home" aria-label="Tribrian Technologies home">
+            <img src="/tribrian-logo-white.png" alt="TRIBRIAN TECHNOLOGIES logo" />
           </a>
           <p>Three Minds. One Vision. Infinite Innovation.</p>
-          <span className="copyright">© {new Date().getFullYear()} TRIBRIAN TECHNOLOGIES</span>
+          <span className="copyright" suppressHydrationWarning>
+            © {new Date().getFullYear()} TRIBRIAN TECHNOLOGIES
+          </span>
         </div>
       </footer>
     </main>
