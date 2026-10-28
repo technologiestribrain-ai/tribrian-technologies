@@ -584,8 +584,8 @@ export default function Home() {
           </div>
           <div className="contact-copy">
             <p>Tell us what you&apos;re building, what&apos;s slowing you down, or where you want to go next. Let&apos;s explore how we can help.</p>
-            <a className="button button-lime" href="mailto:hello@tribriantechnologies.com?subject=Project%20enquiry">Email our team <ArrowRight size={17} /></a>
-            <span className="contact-small">Replace this email with your preferred business email before launch.</span>
+            <a className="button button-lime" href="mailto:technologiestribrain@gmail.com?subject=Project%20enquiry">Email our team <ArrowRight size={17} /></a>
+
           </div>
           <div className="contact-decoration">T<span>.</span></div>
         </div>
