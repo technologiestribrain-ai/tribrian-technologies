@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Activity,
   ArrowDownRight,
@@ -78,10 +78,7 @@ const portfolioProjects = [
     icon: ShoppingCart,
     statusBadge: "Enterprise Live",
     subtitle: "Luxury Diamond & Fine Jewelry Commerce Platform",
-    specCode: "ARCH-EC // v3.2",
     description: "High-ticket luxury jewelry commerce platform featuring 360° certified diamond inspect, real-time vault inventory synchronization, and bespoke ring builder.",
-    metric: "45ms Checkout · $35M+ Luxury GMV",
-    metricIcon: Activity,
     features: [
       "Real-time diamond vault inventory with GIA certificate sync",
       "Interactive 360° stone visualizer & custom ring customizer",
@@ -101,10 +98,7 @@ const portfolioProjects = [
     icon: GraduationCap,
     statusBadge: "Production Deployed",
     subtitle: "K-12 & Higher-Ed Digital Campus Suite",
-    specCode: "ARCH-ED // v4.1",
     description: "Cloud-native institutional operations suite managing 50,000+ active students, automated biometric attendance, fee billing, and parent-teacher collaboration.",
-    metric: "50,000+ Students · 94% Admin Time Saved",
-    metricIcon: CheckCircle2,
     features: [
       "Automated timetable generator with clash prevention",
       "Real-time RFID student attendance with instant SMS alerts",
@@ -124,10 +118,7 @@ const portfolioProjects = [
     icon: Calendar,
     statusBadge: "Live Booking Platform",
     subtitle: "Resort Reservation & Nature Retreat Management Platform",
-    specCode: "ARCH-NCR // v1.0",
     description: "Resort and nature camp booking website featuring accommodation reservations, availability management, seasonal pricing, booking confirmations, and seamless guest reservation experiences.",
-    metric: "Online Resort Bookings · Real-Time Availability",
-    metricIcon: Calendar,
     features: [
       "Resort and campsite booking with real-time room and accommodation availability",
       "Date-based reservations with seasonal pricing, guest details, and booking management",
@@ -147,10 +138,7 @@ const portfolioProjects = [
     icon: Users,
     statusBadge: "Production Live",
     subtitle: "Creator Network & Real-Time Engagement Engine",
-    specCode: "ARCH-SC // v3.0",
     description: "Next-gen social engagement network featuring algorithmic interest feeds, live audio stages, encrypted direct messaging, and creator monetization.",
-    metric: "1.8M Active Members · 35ms Event Latency",
-    metricIcon: Activity,
     features: [
       "Low-latency live interactive audio rooms powered by WebRTC",
       "Algorithmic feed ranking with vector recommendation",
@@ -170,10 +158,7 @@ const portfolioProjects = [
     icon: CreditCard,
     statusBadge: "PCI-DSS Level 1",
     subtitle: "Bank-Grade Payment Orchestration & Wallet",
-    specCode: "ARCH-FT // v5.0",
     description: "Bank-grade payment orchestrator with automated double-entry ledger bookkeeping, real-time KYC validation, and multi-currency routing.",
-    metric: "$280M+ Transacted · 99.999% SLA",
-    metricIcon: ShieldCheck,
     features: [
       "Mathematically balanced double-entry ledger with audit trail",
       "Dynamic multi-acquirer smart routing to minimize decline rates",
@@ -193,10 +178,7 @@ const portfolioProjects = [
     icon: Cpu,
     statusBadge: "Enterprise Deployed",
     subtitle: "Multi-Tenant Workflow & API Observability Suite",
-    specCode: "ARCH-SA // v4.4",
     description: "Multi-tenant cloud operations and workflow orchestration suite with granular role-based access control (RBAC), usage metering, and real-time alerts.",
-    metric: "650+ Enterprise Teams · 4.9/5 CSAT",
-    metricIcon: Sparkles,
     features: [
       "Enterprise RBAC with SAML 2.0 / Okta / Azure AD single sign-on",
       "Sub-second analytics on billions of telemetry records via ClickHouse",
@@ -222,6 +204,38 @@ const categoryFilters = [
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState("all");
   const [selectedProject, setSelectedProject] = useState(null);
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
+
+  useEffect(() => {
+    if (mobileNavOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileNavOpen]);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        setMobileNavOpen(false);
+        setSelectedProject(null);
+      }
+    };
+    const handleResize = () => {
+      if (window.innerWidth > 768) {
+        setMobileNavOpen(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const filteredProjects =
     activeCategory === "all"
@@ -247,8 +261,77 @@ export default function Home() {
           <a href="#work">Capabilities</a>
           <a className="nav-cta" href="#contact">Let&apos;s talk <ArrowDownRight size={16} /></a>
         </nav>
-        <a className="mobile-cta" href="#contact" aria-label="Contact us"><Mail size={19} /></a>
+        <div className="mobile-header-actions">
+          <a className="mobile-cta" href="#contact" aria-label="Contact us"><Mail size={19} /></a>
+          <button
+            type="button"
+            className="burger-menu-btn"
+            onClick={() => setMobileNavOpen((prev) => !prev)}
+            aria-label={mobileNavOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-expanded={mobileNavOpen}
+          >
+            {mobileNavOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
+        </div>
       </header>
+
+      {/* Mobile Navigation Drawer */}
+      <div
+        className={`mobile-nav-overlay ${mobileNavOpen ? "open" : ""}`}
+        onClick={() => setMobileNavOpen(false)}
+        aria-hidden={!mobileNavOpen}
+      >
+        <div
+          className={`mobile-nav-drawer ${mobileNavOpen ? "open" : ""}`}
+          onClick={(e) => e.stopPropagation()}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Mobile navigation"
+        >
+          <div className="mobile-nav-header">
+            <span className="mobile-nav-brand">
+              <img src="/tribrian-logo.png?v=2" alt="TRIBRIAN TECHNOLOGIES logo" />
+            </span>
+            <button
+              type="button"
+              className="mobile-nav-close"
+              onClick={() => setMobileNavOpen(false)}
+              aria-label="Close menu"
+            >
+              <X size={18} />
+            </button>
+          </div>
+
+          <nav className="mobile-nav-links" aria-label="Mobile navigation links">
+            <a href="#services" className="mobile-nav-link" onClick={() => setMobileNavOpen(false)}>
+              <span>Services</span>
+              <ChevronRight size={15} />
+            </a>
+            <a href="#approach" className="mobile-nav-link" onClick={() => setMobileNavOpen(false)}>
+              <span>Our approach</span>
+              <ChevronRight size={15} />
+            </a>
+            <a href="#portfolio" className="mobile-nav-link" onClick={() => setMobileNavOpen(false)}>
+              <span>Portfolio</span>
+              <ChevronRight size={15} />
+            </a>
+            <a href="#work" className="mobile-nav-link" onClick={() => setMobileNavOpen(false)}>
+              <span>Capabilities</span>
+              <ChevronRight size={15} />
+            </a>
+          </nav>
+
+          <div className="mobile-nav-footer">
+            <a
+              className="button button-dark mobile-nav-cta"
+              href="#contact"
+              onClick={() => setMobileNavOpen(false)}
+            >
+              Let&apos;s talk <ArrowRight size={16} />
+            </a>
+          </div>
+        </div>
+      </div>
 
       <section className="hero section-wrap" id="home">
         <div className="hero-copy">
@@ -372,7 +455,6 @@ export default function Home() {
           <div className="portfolio-grid">
             {filteredProjects.map((project) => {
               const IconComponent = project.icon;
-              const MetricIconComponent = project.metricIcon;
               return (
                 <article className="portfolio-card" key={project.id}>
                   <div className={`card-banner ${project.bannerClass}`}>
@@ -389,20 +471,12 @@ export default function Home() {
                     </div>
                     <div className="banner-project-spec">
                       <span className="banner-subtitle">{project.subtitle}</span>
-                      <span className="banner-code-badge">{project.specCode}</span>
                     </div>
                   </div>
 
                   <div className="card-content">
                     <h3 className="card-title">{project.name}</h3>
                     <p className="card-desc">{project.description}</p>
-
-                    <div className="metric-box">
-                      <span className="metric-icon">
-                        <MetricIconComponent size={16} />
-                      </span>
-                      <span className="metric-text">{project.metric}</span>
-                    </div>
 
                     <ul className="card-feature-list">
                       {project.features.map((feat, idx) => (
@@ -470,9 +544,6 @@ export default function Home() {
                 {selectedProject.categoryLabel} · {selectedProject.statusBadge}
               </span>
               <div className="modal-title-row">
-                <span style={{ fontSize: "11px", letterSpacing: ".1em", color: "var(--lime)", fontWeight: 700 }}>
-                  {selectedProject.specCode}
-                </span>
                 <h3>{selectedProject.name}</h3>
                 <p style={{ margin: "6px 0 0", color: "#d2ded5", fontSize: "13px" }}>
                   {selectedProject.subtitle}
